@@ -3,7 +3,25 @@ import './NpoSignup.css'
 import { BsEye, BsEyeSlash } from 'react-icons/bs'
 
 const NpoSignup = ({setActiveSignupPage}) => {
+
+
+  const [loading, setLoading] = useState(false)
+  const [organizationName, setOrganizationName] = useState('')
+  const [registrationNumber, setRegistrationNumber] = useState('')
+  const [phoneNumber, setPhoneNumber] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [show, setShow]= useState(false)
+  const formData = {
+    organizationName,
+    registrationNumber,
+    phoneNumber,
+    email,
+    password,
+  }
+  console.log(formData)
+
+
   return (
     <div className='npoSignUpBody'>
       <div className='signupLoginBox'>
@@ -13,24 +31,24 @@ const NpoSignup = ({setActiveSignupPage}) => {
         <h1 className='indSignupQusBox'>Tell us about your self</h1>
         <div className='indInputHoldBox'>
           Non-profit Name
-          <input type="text" />
+          <input type="text" onChange={(e)=>setOrganizationName(e.target.value)}/>
         </div>
         <div className='indInputHoldBox'>
-          Registration Number(Certificate of Incorporation, Board resolution, SCUML, CO2, CO7, CACIT-1)
-          <input type="text" />
+          RC Numcer
+          <input type="text" onChange={(e)=>setRegistrationNumber(e.target.value)}/>
         </div>
         <div className='indInputHoldBox'>
           Email Address
-          <input type="text" />
+          <input type="text" onChange={(e)=>setEmail(e.target.value)}/>
         </div>
         <div className='indInputHoldBox'>
           Phone Number
-          <input type="text" />
+          <input type="text" onChange={(e)=>setPhoneNumber(e.target.value)}/>
         </div>
         <div className='indInputHoldBox'>
           Password
           <div className='signupInputClone'>
-            <input type={show ? 'text': 'password'} /> 
+            <input type={show ? 'text': 'password'} onChange={(e)=>setPassword(e.target.value)}/> 
             {
               show ? 
               <BsEyeSlash cursor="pointer" onClick={()=>setShow(false)}/>:
@@ -46,7 +64,9 @@ const NpoSignup = ({setActiveSignupPage}) => {
           <input type="checkbox" name="" id="" /> I have read and agree to the Terms and Use and Private Policy
         </div>
         <button className='signupIndCreateBtn' onClick={()=>setActiveSignupPage("D")}>
-          Create Account
+          {
+            loading? "Loading...": "Create Account"
+          }
         </button>
         
       </div>
