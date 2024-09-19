@@ -21,6 +21,8 @@ import AboutUs from "./pages/AboutUs/AboutUs";
 import Faqs from "./pages/Faqs/Faqs"; 
 import Pricing from "./pages/Pricing/Pricing"; 
 import ContactUs from "./pages/ContactUs/ContactUs"; 
+import DonorDetails from "./components/DonorDetails/DonorDetails";
+import ChangePassword from "./components/ChangePassword/ChangePassword";
 
 const App = () => {
   return (
@@ -39,7 +41,8 @@ const App = () => {
           <Route path="/dashboard" element={<Dashboard />} />,
           // <Route path="/dashboard" element={< />}/>,
           <Route path="/campaign" element={<Campaign />} />,
-          <Route path="/track" element={<Track />} />,
+          <Route path="/donor" element={<Track />} />,
+          <Route path="/donor/details" element={<DonorDetails />} />,
           <Route path="/payout" element={<Payout />} />,
           <Route path="/account" element={<Account />} />,
           <Route path="/campaign/create-campaign" element={<CreateCampaign />} />
@@ -47,6 +50,7 @@ const App = () => {
 
 
         <Route path="/privacy-cookies" element={<PrivacyCookies />} />
+        <Route path="/change-password" element={<ChangePassword />} />
         <Route path="/terms-of-use" element={<TermsOfUse />} />
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/faqs" element={<Faqs />} />
