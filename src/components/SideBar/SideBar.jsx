@@ -1,5 +1,5 @@
 import React from 'react'
-import './sidebar.css'
+import './SideBar.css'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { BiBook, BiHome, BiWallet } from 'react-icons/bi'
 import { BsMegaphone, BsPeople } from 'react-icons/bs'
