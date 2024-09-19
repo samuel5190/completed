@@ -92,7 +92,7 @@ const Campaign = () => {
           <div>
             <button
               className="campaignBtn"
-              onClick={() => Nav("/campaign/create.campaign")}
+              onClick={() => Nav("/campaign/create-campaign")}
             >
               New Campaign
             </button>
