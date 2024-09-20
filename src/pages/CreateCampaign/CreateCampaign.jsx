@@ -7,6 +7,7 @@ import Share from "../../components/Share/Share";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { Toaster } from "react-hot-toast";
 
 const CreateCampaign = () => {
   const Nav = useNavigate();
@@ -22,13 +23,10 @@ const CreateCampaign = () => {
   console.log(ev, "this id the ev");
 
   const campaignData = {
-
-    
     title,
     subtitle,
     story,
     file,
-    // campaignPic is no longer needed; we'll use FormData
     Goal: amount,
     endDate,
     ev,
@@ -125,6 +123,7 @@ const CreateCampaign = () => {
   // };
 
   return (
+    <>
     <div className="createBody">
       <h2 className="createName">Create a New Campaigns</h2>
       <div className="createContent">
@@ -155,6 +154,8 @@ const CreateCampaign = () => {
         <div className="create">{renderComponent()}</div>
       </div>
     </div>
+    <Toaster/>
+    </>
   );
 };
 
