@@ -1,7 +1,7 @@
 import React from "react";
 import "./Goal.css";
 
-const Goal = ({setAmount,setEndDate,sharing}) => {
+const Goal = ({setAmount,setEndDate,sharing,Create,loading}) => {
   return (
     <div className="goalBody">
       <div className="goalTitleBox">
@@ -28,7 +28,11 @@ const Goal = ({setAmount,setEndDate,sharing}) => {
           <div>toggle</div>
         </div>
         <div className="SaveBtnBox">
-          <button className="goalSaveBtn" onClick={sharing}>Save</button>
+          <button className="goalSaveBtn" onClick={Create}>
+            {
+              loading ? 'Creating...' : 'Create'
+            }
+          </button>
         </div>
       </div>
     </div>

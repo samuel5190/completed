@@ -8,7 +8,7 @@ import 'animate.css';
 
 import { QRCodeSVG } from "qrcode.react";
 
-const Share = ({setActiveComponent,setEv,ev,campaignData,Create,loading}) => {
+const Share = ({setActiveComponent,setEv,ev,campaignData,loading}) => {
   const Nav = useNavigate()
   const [num, setNum] = useState();
   const [link, setLink] = useState();
@@ -138,13 +138,7 @@ const Share = ({setActiveComponent,setEv,ev,campaignData,Create,loading}) => {
         </div>
       </div>
 
-      <div className="shareBtnBox">
-      <button className="publishBtn"onClick={Create}>
-          {
-            loading? "Creating..." : "Publish"
-          }
-        </button>
-      </div>
+      
     </div>
   );
 };

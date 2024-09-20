@@ -66,7 +66,7 @@ const CreateCampaign = () => {
         },
       })
       .then((res) => {
-        console.log(res);
+        console.log(res?.data?.info);
         toast.success(res?.data?.info);
         // Handle successful response here, e.g., navigating or setting state
         Nav("/dashboard");
@@ -101,9 +101,9 @@ const CreateCampaign = () => {
           case 'A':  
               return <Content setFile={setFile} goal={goal} setTitle={setTitle} setSubTitle={setSubTitle} setStory={setStory} setPhoto={setPhoto} />;  
           case 'B':  
-              return <Goal sharing={sharing} setAmount={setAmount} setEndDate={setEndDate} />;  
+              return <Goal loading={loading} sharing={sharing} Create={Create} setAmount={setAmount} setEndDate={setEndDate} />;  
           case 'C':  
-              return <Share loading={loading} Create={Create} campaignData={campaignData} ev={ev} setEv={setEv} setActiveComponent={setActiveComponent} />;  
+              return <Share campaignData={campaignData} ev={ev} setEv={setEv} setActiveComponent={setActiveComponent} />;  
           default:  
               return <Content />;  
       }  

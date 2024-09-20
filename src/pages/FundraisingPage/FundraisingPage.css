@@ -3,6 +3,14 @@
     background-color: whitesmoke;
     padding-bottom: 200px;
   }
+
+  .disabled {
+    background-color: #55b78c78;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    border: none;
+  }
   
   .fund-head {
     height: 140px;

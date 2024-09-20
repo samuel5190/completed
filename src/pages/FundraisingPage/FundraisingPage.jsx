@@ -250,12 +250,21 @@ const FundraisingPage = () => {
             </div>
             <div className="donateBox">
               <div className="bonateInBox">
-                <button
-                  className="fundRaiseDonateBtn"
+                {
+                  datas?.status == "inactive" ?
+                <button disabled={true}
+                  className="disabled"
                   onClick={() => setPay(true)}
                 >
                   Donate
-                </button>
+                </button>:
+                <button
+                className="fundRaiseDonateBtn"
+                onClick={() => setPay(true)}
+              >
+                Donate
+              </button>
+                }
                 <button
                   className="fundRaiseShareBtn"
                   onClick={() => setShareModal(true)}
