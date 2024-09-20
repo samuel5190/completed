@@ -22,6 +22,8 @@ const CreateCampaign = () => {
   console.log(ev, "this id the ev");
 
   const campaignData = {
+
+    
     title,
     subtitle,
     story,
