@@ -19,14 +19,17 @@ import School from "../../assets/School.svg";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import { myCampaigns } from "../../Global/slice";
 import toast from "react-hot-toast";
+import { myCampaigns } from "../../Global/slice";
 // import { Bar } from 'rechart';
 // import { BarChart, ResponsiveContainer,Bar, XAxis, YAxis, Tooltip } from 'recharts';
 
 const DashBoard = () => {
   // const userData = JSON.parse(localStorage.getItem('userData'))
   // console.log(userData)
+
+  const [campaign, setCampaign] = useState([]);
+
 
   const products = [
     {
@@ -105,29 +108,28 @@ const DashBoard = () => {
   const token = useSelector((state) => state.kindraise.token);
   // console.log("main token", token);
 
-  const [campaign, setCampaign] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const url = "https://kindraise.onrender.com/api/v1/get-NpoallCampaign";
-    setLoading(true);
-    const headers = {
-      Authorization: `Bearer: ${token}`,
-    };
-    axios
-      .get(url, { headers })
-      .then((res) => {
-        console.log(res?.data?.allCampaigns, "data");
-        setCampaign(res?.data?.allCampaigns);
-        dispatch(myCampaigns(res?.data?.allCampaigns));
-        console.log(products);
-        setLoading(false);
-      })
-      .catch((err) => {
-        toast.error(err?.response?.data?.message)
-        // setLoading(false); // Data has finished loading even on error
-      });
-  }, []);
+  useEffect(() => {  
+    setLoading(true);  
+    const url = "https://kindraise.onrender.com/api/v1/get-NpoallCampaign";  
+
+    axios  
+      .get(url, {  
+        headers: { Authorization: `Bearer: ${token}` },  
+      })  
+      .then((res) => {  
+        const data = res?.data?.allCampaigns || [];  
+        setCampaign(data);  
+        setFilteredCampaigns(data); // Initialize filtered campaigns  
+        dispatch(myCampaigns(data)); // Dispatch to Redux store  
+        setLoading(false);  
+      })  
+      .catch((err) => {  
+        toast.error(err?.response?.data?.message);  
+        setLoading(false);  
+      });  
+  }, [token]);
 
   function getFirstTwoObjects(arr) {
     // Check if the input is an array and has at least two objects

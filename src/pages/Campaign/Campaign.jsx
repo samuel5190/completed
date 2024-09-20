@@ -33,12 +33,12 @@ const Campaign = () => {
       .then((res) => {  
         const data = res?.data?.allCampaigns || [];  
         setCampaigns(data);  
-        setFilteredCampaigns(data); // Initialize filtered campaigns  
-        dispatch(myCampaigns(data)); // Dispatch to Redux store  
+        setFilteredCampaigns(data);   
+        dispatch(myCampaigns(data));   
         setLoading(false);  
       })  
-      .catch((err) => {  
-        toast.error(err?.response?.data?.message);  
+      .catch((err) => {    
+        console.log(err);  
         setLoading(false);  
       });  
   }, [token, dispatch]);  
@@ -85,10 +85,10 @@ const Campaign = () => {
                 padding: "10px",
               }}
             >
-              <button onClick={() => handleAction("Edit", row.original.id)}>
+              <button onClick={() => handleAction("Edit", row.original.ev)}>
                 Edit
               </button>
-              <button onClick={() => handleAction("View", row.original.id)}>
+              <button onClick={() => handleAction("View", row.original.ev)}>
                 View
               </button>
             </div>
@@ -98,7 +98,7 @@ const Campaign = () => {
     },  
   ], [selectedRowIndex]);  
 
-  const handleAction = (action, id) => {
+  const handleAction = (action, ev) => {
     setSelectedAction(action);
     setSelectedRowIndex(null); // Close the menu after an action
 
@@ -106,7 +106,7 @@ const Campaign = () => {
     if (action === "Edit") {
       alert("true"); 
     } else if (action === "View") {
-      Nav(`/fundraising-page/${id}`); 
+      Nav(`/fundraising-page/${ev}`); 
     }
   };
 
