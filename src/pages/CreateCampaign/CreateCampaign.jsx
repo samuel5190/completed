@@ -7,7 +7,7 @@ import Share from "../../components/Share/Share";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 
 const CreateCampaign = () => {
   const Nav = useNavigate();

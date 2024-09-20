@@ -35,6 +35,7 @@ const Login = () => {
         dispatch(userRole(res?.data?.data?.role))
         Nav('/dashboard')
         setLoading(false)
+        
       })
       .catch((err)=>{
         console.log(err?.response?.data?.info)
