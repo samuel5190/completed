@@ -7,9 +7,20 @@ import { FiSettings } from 'react-icons/fi'
 // import Icon from '../../assets/Icon.svg'
 // import Logo from '../../assets/Logo.svg'
 import { IoIosLogOut } from 'react-icons/io'
+import { useDispatch } from 'react-redux'
+import { addUser, allCampaigns, myCampaigns, userRole, userToken } from '../../Global/slice'
 
 const SideBar = () => {
+  const dispatch = useDispatch()
   const Nav = useNavigate()
+  const logout = ()=>{
+    dispatch(addUser({}))
+    dispatch(userRole(''))
+    dispatch(userToken(''))
+    dispatch(allCampaigns([]))
+    dispatch(myCampaigns([]))
+    Nav('/login')
+  }
   return (
     <div className='sideBarBody'>
       <div className='sideBarWrapper'>
@@ -29,7 +40,7 @@ const SideBar = () => {
             <NavLink to={'/donor'} className={({ isActive }) =>isActive ? "HeaderActive" : "HeaderNotActive"}><BsPeople size={15}/><span>Donors</span></NavLink>
             <NavLink to={'/payout'} className={({ isActive }) =>isActive ? "HeaderActive" : "HeaderNotActive"}><BiWallet size={15}/><span>Payout</span></NavLink>
             <NavLink to={'/account'} className={({ isActive }) =>isActive ? "HeaderActive" : "HeaderNotActive"}><FiSettings size={15}/><span>Account</span></NavLink>
-            <NavLink to={'/'} className={({ isActive }) =>isActive ? "logOut end" : "HeaderNotActive end"}><IoIosLogOut /><span>Logout</span></NavLink>
+            <div onClick={logout} className={({ isActive }) =>isActive ? "logOut end" : "HeaderNotActive end"}><IoIosLogOut /><span>Logout</span></div>
             
           </ul>
         </div>

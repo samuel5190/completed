@@ -20,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { myCampaigns } from "../../Global/slice";
+import toast from "react-hot-toast";
 // import { Bar } from 'rechart';
 // import { BarChart, ResponsiveContainer,Bar, XAxis, YAxis, Tooltip } from 'recharts';
 
@@ -102,7 +103,7 @@ const DashBoard = () => {
     },
   ];
   const token = useSelector((state) => state.kindraise.token);
-  console.log("main token", token);
+  // console.log("main token", token);
 
   const [campaign, setCampaign] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -110,28 +111,21 @@ const DashBoard = () => {
   useEffect(() => {
     const url = "https://kindraise.onrender.com/api/v1/get-NpoallCampaign";
     setLoading(true);
-
     const headers = {
-      Authorization: `Bearer: ${token}`, // Use the required authorization method
-      // Add other headers if needed
+      Authorization: `Bearer: ${token}`,
     };
-
-    // Perform the GET request
     axios
       .get(url, { headers })
       .then((res) => {
-        // setData(res);  // Set the fetched data
         console.log(res?.data?.allCampaigns, "data");
         setCampaign(res?.data?.allCampaigns);
-        // setCampaign(res?.data?.allCampaigns);  // Set the fetched data
         dispatch(myCampaigns(res?.data?.allCampaigns));
         console.log(products);
-        // console.log(data)
-        setLoading(false); // Data has finished loading
+        setLoading(false);
       })
       .catch((err) => {
-        setError(err.message || "Something went wrong"); // Set the error message
-        setLoading(false); // Data has finished loading even on error
+        toast.error(err?.response?.data?.message)
+        // setLoading(false); // Data has finished loading even on error
       });
   }, []);
 
@@ -145,7 +139,7 @@ const DashBoard = () => {
   }
 
   const firstTwoProducts = getFirstTwoObjects(campaign);
-  console.log(firstTwoProducts);
+  // console.log(firstTwoProducts);
 
   function filterActiveCampaigns(products) {
     return products.filter((product) => product.status === "active");
@@ -361,7 +355,7 @@ const DashBoard = () => {
               </div>
               <div className="fundraiseDashBody">
                 {
-                  // loading ? <div>fetching Data...</div>:
+                  loading ? <div>Not campaign found</div>:
                 firstTwoProducts.map((e, i) => {
                   const percentage = (e.totalRaised / e.Goal) * 100;
 

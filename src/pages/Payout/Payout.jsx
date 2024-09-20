@@ -1,10 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './Payout.css'
 import { BsBank } from "react-icons/bs";
+import PayoutModal from '../../components/PayoutModal/PayoutModal';
 
 const Payout = () => {
+  const [modal,setModal] = useState(false)
   return (
     <div className='payoutBody'>
+      {
+        modal ? <PayoutModal setModal={setModal}/>:null
+      }
       <h2 className="pageName" style={{marginTop: '20px'}}>Payout</h2>
       <div className='payoutContent'>
         <div className='payoutBankDetails'>
@@ -15,7 +20,7 @@ const Payout = () => {
             <div className='payoutAccDetailsBox'>
               <h2>Bank Account</h2>
               <div>Connect a bank account to begin withdrawing funds.</div>
-              <button>connect</button>
+              <button onClick={()=>setModal(true)}>connect</button>
             </div>
           </div>
           <div className='payoutWidDetails'>

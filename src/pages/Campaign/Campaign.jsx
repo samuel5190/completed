@@ -7,6 +7,7 @@ import axios from "axios";
 import { myCampaigns } from "../../Global/slice";  
 import { useTable } from "react-table";  
 import { BsArrowDown } from "react-icons/bs";  
+import toast, { Toaster } from "react-hot-toast";
 
 const Campaign = () => {  
   const Nav = useNavigate();  
@@ -37,7 +38,7 @@ const Campaign = () => {
         setLoading(false);  
       })  
       .catch((err) => {  
-        console.error(err);  
+        toast.error(err?.response?.data?.message);  
         setLoading(false);  
       });  
   }, [token, dispatch]);  
@@ -197,6 +198,7 @@ const Campaign = () => {
           </div>  
         </div>  
       </div>  
+      <Toaster/>
     </>  
   );  
 };  
