@@ -34,7 +34,7 @@
     height: 50px;
     align-items: center;
     width: 100%;
-    background-color: red;
+    /* background-color: red; */
     gap: 20px;
     flex-wrap: wrap;
     display: flex;

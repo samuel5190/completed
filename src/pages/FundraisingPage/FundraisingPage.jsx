@@ -119,6 +119,32 @@ const FundraisingPage = () => {
   const percentage = (current / max) * 100;  
   // console.log(pay)
 
+
+
+
+//   function payKorapay() {
+//     window.Korapay.initialize({
+//         key: "pk_juigfweofyfewby732gwo8923e",
+//         reference: "your-unique-reference",
+//         amount: 3000, 
+//         currency: "NGN",
+//         customer: {
+//           name: "John Doe",
+//           email: "john@doe.com"
+//         },
+//         onClose: function () {
+//           // Handle when modal is closed
+//         },
+//         onSuccess: function (data) {
+//           // Handle when payment is successful
+//         },
+//         onFailed: function (data) {
+//           // Handle when payment fails
+//         }
+//         ...
+//     });
+// }
+
   return (
     <>
     
