@@ -18,6 +18,7 @@ const SideBar = () => {
            {/* <img src={Logo} alt="" className='full' onClick={()=>Nav('/dashboard')}/> */}
           </div>
           <div className='logoSmall'>
+            
             {/* <img src={Icon} alt="" onClick={()=>Nav('/dashboard')}/> */}
           </div>
         </div>
