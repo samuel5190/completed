@@ -8,10 +8,21 @@
   tr {
     border-left: none;
   }
+
+  .filterBox {
+    background-color: white;
+  }
+
+  .showSmallBox {
+
+    &:hover {
+      background-color: #f1f1f1;
+    }
+  }
   
   .campaignContent {
     height: max-content;
-    /* background-color: turquoise; */
+    background-color: turquoise;
     width: 100%;
     display: flex;
     margin-bottom: 30px;
@@ -20,13 +31,14 @@
   }
   
   .campaignSearchSide {
-    height: max-content;
+    height: 50px;
     align-items: center;
     width: 100%;
-    /* background-color: red; */
+    background-color: red;
     gap: 20px;
     flex-wrap: wrap;
     display: flex;
+    margin-bottom: 30px;
     justify-content: space-between;
   }
   
@@ -353,3 +365,66 @@
     border: 3px solid red;
   } */
   
+
+  .table-cellNow {  
+    max-width: 150px; /* Set a maximum width for truncation */  
+    overflow: hidden; /* Hide the overflowed content */  
+    white-space: nowrap; /* Prevent text from wrapping to the next line */  
+    text-overflow: ellipsis; /* Add ellipsis (...) to indicate overflow */  
+  }  
+  
+  /* Optional: Styling for the table itself */  
+  .campaign-table {  
+    width: 100%; /* Make the table take full width */  
+    border-collapse: collapse; /* Better styling for borders */  
+  }  
+  
+  .table-header {  
+    background-color: #f1f1f1; /* Background color for header */  
+  }  
+  
+  .table-header-cell {  
+    padding: 10px; /* Padding for header cells */  
+    text-align: left; /* Align text to the left */  
+    border: 1px solid #ddd; /* Add border to header cells */  
+  }  
+  
+  .table-row {  
+    border-bottom: 1px solid #ddd; /* Border for rows */  
+    border-collapse: collapse;
+  }  
+  
+  .table-cellNow {  
+    padding: 10px; /* Padding for data cells */  
+    border: 1px solid #ddd; /* Add border to data cells */  
+    border-collapse: collapse;
+  }
+
+  .campaign-table {  
+    width: 100%; /* Make the table take full width */  
+    border-collapse: collapse; /* Collapse borders to avoid double borders */  
+  }  
+  
+  .table-header {  
+    background-color: #f1f1f1; /* Background color for header */  
+  }  
+  
+  .table-header-cell {  
+    padding: 10px; /* Padding for header cells */  
+    text-align: left; /* Align text to the left */  
+    border: 1px solid #ddd; /* Add border to header cells */  
+  }  
+  
+  .table-row {  
+    /* No border for rows */  
+  }  
+  
+  .table-cellNow {  
+    padding: 10px; /* Padding for data cells */  
+    border: none; /* Remove borders from data cells */  
+  }  
+  
+  /* Optional: Add a bottom border to the last row if desired */  
+  .table-row:last-child .table-cellNow {  
+    border-bottom: 1px solid #ddd; /* Add border to bottom of the last cell in the last row */  
+  }

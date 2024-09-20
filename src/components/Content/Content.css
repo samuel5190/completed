@@ -6,6 +6,25 @@
     border-radius: 10px;
   }
   
+  .aboutSaveBtnBox {
+    width: 100%;
+    /* background-color: red; */
+    height: max-content;
+    display: flex;
+    justify-content: flex-end;
+  
+    .aboutSaveBtn {
+      height: 40px;
+      width: 80px;
+      padding: 10px;
+      background-color: var(--main-green);
+      border: none;
+      color: white;
+      font-weight: bold;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+  }
   .contentTitleBox {
     padding: 20px;
     /* background-color: aqua; */

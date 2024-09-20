@@ -2,15 +2,18 @@ import React, { useState } from 'react'
 import './Content.css'
 import { FcCancel } from 'react-icons/fc';
 
-const Content = ({setTitle,setSubTitle,setStory,setPhoto}) => {
+const Content = ({setTitle,setSubTitle,setStory,setPhoto,goal,setFile}) => {
   const [post, setPost] = useState();
   // const [word, setWord] = useState(setTitle);
 
   const showImg = (e) => {
     const file = e.target.files[0];
+    console.log(file)
+    setFile(file)
     const img = URL.createObjectURL(file);
     setPost(img);
     setPhoto(img)
+    console.log(img)
   };
 
 
@@ -73,7 +76,9 @@ const Content = ({setTitle,setSubTitle,setStory,setPhoto}) => {
           </div>
         </div>
       </div>
-
+      <div className="SaveBtnBox">
+          <button className="goalSaveBtn" onClick={goal}>Next</button>
+        </div>
       
     </div>
   )

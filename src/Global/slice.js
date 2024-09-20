@@ -2,9 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 
 
 const appSlice = createSlice({
-  name: 'kindraise',
+  name: 'app',
   initialState: {
     user: {},
+    allCampaigns: [],
+    myCampaigns: [],
     token: '',
     role:''
   },
@@ -18,7 +20,13 @@ const appSlice = createSlice({
     userRole: (state, {payload})=>{
       state.role = payload
     },
+    allCampaigns: (state, {payload})=>{
+      state.allCampaigns = payload
+    },
+    myCampaigns: (state, {payload})=>{
+      state.myCampaigns = payload
+    }
   }
 });
-export const { addUser, userToken,userRole} = appSlice.actions;
+export const { allCampaigns, addUser, myCampaigns, userToken,userRole} = appSlice.actions;
 export default appSlice.reducer;

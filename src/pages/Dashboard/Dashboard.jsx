@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Dashboard.css";
 import {
   Area,
@@ -15,9 +15,11 @@ import {
 import { BiMoney } from "react-icons/bi";
 import { BsMegaphone, BsPeople } from "react-icons/bs";
 import { AiOutlineExport } from "react-icons/ai";
-import School from '../../assets/School.svg'
+import School from "../../assets/School.svg";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import axios from "axios";
+import { myCampaigns } from "../../Global/slice";
 // import { Bar } from 'rechart';
 // import { BarChart, ResponsiveContainer,Bar, XAxis, YAxis, Tooltip } from 'recharts';
 
@@ -99,8 +101,62 @@ const DashBoard = () => {
       hidden: 1200,
     },
   ];
-  const token = useSelector((state)=>state.kindraise.token)
-  console.log("main token", token)
+  const token = useSelector((state) => state.kindraise.token);
+  console.log("main token", token);
+
+  const [campaign, setCampaign] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const url = "https://kindraise.onrender.com/api/v1/get-NpoallCampaign";
+    setLoading(true);
+
+    const headers = {
+      Authorization: `Bearer: ${token}`, // Use the required authorization method
+      // Add other headers if needed
+    };
+
+    // Perform the GET request
+    axios
+      .get(url, { headers })
+      .then((res) => {
+        // setData(res);  // Set the fetched data
+        console.log(res?.data?.allCampaigns, "data");
+        setCampaign(res?.data?.allCampaigns);
+        // setCampaign(res?.data?.allCampaigns);  // Set the fetched data
+        dispatch(myCampaigns(res?.data?.allCampaigns));
+        console.log(products);
+        // console.log(data)
+        setLoading(false); // Data has finished loading
+      })
+      .catch((err) => {
+        setError(err.message || "Something went wrong"); // Set the error message
+        setLoading(false); // Data has finished loading even on error
+      });
+  }, []);
+
+  function getFirstTwoObjects(arr) {
+    // Check if the input is an array and has at least two objects
+    if (Array.isArray(arr)) {
+      return arr.slice(0, 2); // Return the first two objects
+    } else {
+      return []; // Return an empty array if the input is not an array
+    }
+  }
+
+  const firstTwoProducts = getFirstTwoObjects(campaign);
+  console.log(firstTwoProducts);
+
+  function filterActiveCampaigns(products) {
+    return products.filter((product) => product.status === "active");
+  }
+  const activeCampaigns = filterActiveCampaigns(campaign);
+
+  // calculate total amount
+  function calculateTotalAmount(products) {
+    return products.reduce((total, product) => total + product.totalRaised, 0);
+  }
+  const totalAmount = calculateTotalAmount(campaign);
 
   const [searchTerm, setSearchTerm] = useState(""); // State for search term
   const [selectedPerson, setSelectedPerson] = useState(null); // State for selected person
@@ -222,7 +278,7 @@ const DashBoard = () => {
           <div className="dashBoardUpperCard">
             <div className="dashboardSmallCard">
               <div className="dashBoardCardUpper">
-                <h2 className="upperCardMainText one">₦110,000</h2>
+                <h2 className="upperCardMainText one">₦{totalAmount}</h2>
                 <div className="upperCardSubText">Total Raised</div>
               </div>
               <div className="dashBoardCardLower">
@@ -234,7 +290,7 @@ const DashBoard = () => {
             </div>
             <div className="dashboardSmallCard">
               <div className="dashBoardCardUpper">
-                <h2 className="upperCardMainText two">₦11,000</h2>
+                <h2 className="upperCardMainText two">₦12,000</h2>
                 <div className="upperCardSubText">Total Donation</div>
               </div>
               <div className="dashBoardCardLower">
@@ -260,7 +316,9 @@ const DashBoard = () => {
             </div>
             <div className="dashboardSmallCard">
               <div className="dashBoardCardUpper">
-                <h2 className="upperCardMainText four">12</h2>
+                <h2 className="upperCardMainText four">
+                  {activeCampaigns.length}
+                </h2>
                 <div className="upperCardSubText">Active Campaigns</div>
               </div>
               <div className="dashBoardCardLower">
@@ -297,39 +355,48 @@ const DashBoard = () => {
             <div className="fundraisingDashboardBox">
               <div className="fundraiseDashHead">
                 <h3>Your Fundraising</h3>
-                <div>
+                <div onClick={() => Nav("/campaign")}>
                   <AiOutlineExport size={20} cursor="pointer" />
                 </div>
               </div>
               <div className="fundraiseDashBody">
-                <div className="fundRaiseDashCard">
-                  <div className="fundraiseFrameBox">
-                    <div className="fundRaiseFrameImgBox">
-                      <img src={School} alt="" />
-                    </div>
-                    <div className="fundRaiseFrameText">
-                      Sponsor 5 Children in Nigeria Get Back to School
-                    </div>
-                  </div>
-                  <div className="fundRaiseTrackBox">
-                    <div className="trackBoxDash small">
-                      <div className="progress-containerDash">
-                        <div
-                          className="progress-barDash"
-                          style={{ width: `${percentage}%` }}
-                        ></div>
-                      </div>
-                    </div>
+                {
+                  // loading ? <div>fetching Data...</div>:
+                firstTwoProducts.map((e, i) => {
+                  const percentage = (e.totalRaised / e.Goal) * 100;
 
-                    <div className="fundraiseAmountTrack">
-                      <div>
-                        ₦100,450/<span>150,000</span>
+                  return (
+                    <div className="fundRaiseDashCard">
+                      <div className="fundraiseFrameBox">
+                        <div className="fundRaiseFrameImgBox">
+                          <img src={e.profilePic} alt="" />
+                        </div>
+                        <div className="fundRaiseFrameText">{e.story}</div>
                       </div>
-                      <div>69% funded</div>
+                      <div className="fundRaiseTrackBox">
+                        <div className="trackBoxDash small">
+                          <div className="progress-containerDash">
+                            <progress
+                              className="progBar"
+                              max={e.Goal}
+                              value={e.totalRaised}
+                            ></progress>
+                          </div>
+                        </div>
+
+                        <div className="fundraiseAmountTrack">
+                          <div>
+                            ₦{e.totalRaised}/<span>{e.Goal}</span>
+                          </div>
+                          <div>{percentage}% funded</div>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-                <div className="fundRaiseDashCard">
+                  );
+                })
+                }
+
+                {/* <div className="fundRaiseDashCard">
                   <div className="fundraiseFrameBox">
                     <div className="fundRaiseFrameImgBox">
                       <img src={School} alt="" />
@@ -354,7 +421,7 @@ const DashBoard = () => {
                       <div>69% funded</div>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
@@ -381,39 +448,38 @@ const DashBoard = () => {
           />  
         </div>  
       </div>   */}
-      <div className="ca">
-
-            <div className="contacts-list">
-              {filteredPersons.map((person, index) => (
-                <div
-                  key={index}
-                  className="person-item"
-                  onClick={() => handlePersonClick(person)}
-                >
-                  {person.name}
-                </div>
-              ))}
+            <div className="ca">
+              <div className="contacts-list">
+                {filteredPersons.map((person, index) => (
+                  <div
+                    key={index}
+                    className="person-item"
+                    onClick={() => handlePersonClick(person)}
+                  >
+                    {person.name}
+                  </div>
+                ))}
+              </div>
+              <div className="details-container">
+                {selectedPerson && (
+                  <div className="details">
+                    <h2>{selectedPerson.name}</h2>
+                    <p>
+                      <strong>Date:</strong> {selectedPerson.date}
+                    </p>
+                    <p>
+                      <strong>Amount:</strong> {selectedPerson.amount}
+                    </p>
+                    <p>
+                      <strong>Campaign:</strong> {selectedPerson.campaign}
+                    </p>
+                    <p>
+                      <strong>Email:</strong> {selectedPerson.email}
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
-            <div className="details-container">
-              {selectedPerson && (
-                <div className="details">
-                  <h2>{selectedPerson.name}</h2>
-                  <p>
-                    <strong>Date:</strong> {selectedPerson.date}
-                  </p>
-                  <p>
-                    <strong>Amount:</strong> {selectedPerson.amount}
-                  </p>
-                  <p>
-                    <strong>Campaign:</strong> {selectedPerson.campaign}
-                  </p>
-                  <p>
-                    <strong>Email:</strong> {selectedPerson.email}
-                  </p>
-                </div>
-              )}
-            </div>
-      </div>
           </div>
         </div>
       </div>

@@ -34,7 +34,7 @@ const App = () => {
         <Route path="/passwordchange" element={<PasswordChange />} />
         <Route path="/createpassword" element={<CreateNewPassword />} />
         <Route path="/resetpassword" element={<ResetPassword />} />
-        <Route path="/fundraising-page" element={<FundraisingPage />} />
+        <Route path="/fundraising-page/:id" element={<FundraisingPage />} />
         <Route path="/explore-campaigns" element={<ExploreCampaigns />} />
         
         <Route element={<DashboardLayout />} children={[

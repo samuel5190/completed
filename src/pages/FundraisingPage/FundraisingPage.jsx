@@ -9,10 +9,58 @@ import Tree from '../../assets/Tree.svg'
 import Header from "../../components/Header/Header";
 import Modal from '../../components/Payment/Modal'
 import Footer from "../../components/Footer/Footer";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { allCampaigns } from "../../Global/slice";
 
 const FundraisingPage = () => {
   const [pay, setPay] = useState(false)
+  const {id} = useParams()
 
+  // console.log(id)
+
+  const [data, setData] = useState(null)
+  const [oneData, setOneData] = useState(null)
+  const dispatch = useDispatch()
+  // console.log(id)
+
+  const main = useSelector((state)=>state.kindraise.allCampaigns)
+  // console.log(main, "main")
+  const get = ()=>{
+
+    const url = 'https://kindraise.onrender.com/api/v1/getallcampaigns';  
+  
+    axios.get(url)  
+    .then((res) => {  
+      // console.log(res?.data?.campaign,"all campaigns") 
+      dispatch(allCampaigns(res?.data?.Campaigns));
+      setData(res?.data?.Campaigns);
+      // console.log(data,"data");
+      // console.log(oneData, "campaignManager")
+    })  
+    .catch((err) => {  
+      console.log(err); // Set the error message  
+    });  
+  }
+  
+  useEffect(() => {  
+    get()
+    // setOneData(us)
+  }, []);
+  useEffect(()=>{
+
+    const data = (main.filter((e)=>e.id == id))
+     setOneData(data[0])
+    // console.log(oneData.story)
+  },[main])
+
+  // useEffect(()=>{
+  //   setOneData(data.filter((e)=>e.id == id))
+  //   console.log(oneData, "oneData")
+  // },[data, id])
+  
+  // setOneData(data.filter((e)=>e.id == id))
   const [amount, setAmount] = useState("")
   const [amntBtn, setAmntBtn] = useState(false)
   const [bank, setBank] = useState("")
@@ -21,13 +69,13 @@ const FundraisingPage = () => {
   const [message, setMessage] = useState("")
 
 
-  useEffect(()=>{
-    if (amount.length > 2) {
-      console.log("hello")
-    } else {
-      console.log("not empty message")
-    }
-  },[amount])
+  // useEffect(()=>{
+  //   if (amount.length > 2) {
+  //     console.log("hello")
+  //   } else {
+  //     console.log("not empty message")
+  //   }
+  // },[amount])
 
   const paymentData = {
     amount,
@@ -36,7 +84,7 @@ const FundraisingPage = () => {
     email,
     message
   }
-  console.log(paymentData)
+  // console.log(paymentData)
 
 
   const donor = [
@@ -69,10 +117,11 @@ const FundraisingPage = () => {
   const max = 2000;  
   const current = 1000;  
   const percentage = (current / max) * 100;  
-  console.log(pay)
+  // console.log(pay)
 
   return (
     <>
+    
     <div className="fundRaiseBody">
       {pay ? (
         <Modal
@@ -88,7 +137,7 @@ const FundraisingPage = () => {
         <Header />
       </div>
       <div className="fundRaiseTitleBox">
-        <h2>Roots of Hope</h2>
+        <h2>tree</h2>
         <div>Nuturing our Future, One Tree at a Time</div>
       </div>
       <div className="fundMainContentBox">
@@ -183,7 +232,7 @@ const FundraisingPage = () => {
             </div>
             <div className="fundRaiseUpdateBox">
               <h2>Update</h2>
-              <div>No updates for this campaign just yet</div>
+              <div>No updates for this Campaigns just yet</div>
             </div>
           </div>
           <div className="donateBox">

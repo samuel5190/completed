@@ -5,6 +5,15 @@
   padding: 20px;
 }
 
+.progBar {
+  height: 10px;
+  width: 100%;
+  /* height: 20px;
+  width: 0;
+  background-color: red;
+  background-color: #4CAF50; */
+  /* animation: progress 2s infinite; */
+}
 .pageName {
   margin-top: 20px;
   margin-bottom: 50px;
@@ -280,10 +289,14 @@
 
 .progress-containerDash {  
   width: 100%; /* w-full */  
-  background-color: #E2E8F0; /* bg-gray-300 */  
+  /* background-color: #E2E8F0; bg-gray-300   */
   border-radius: 9999px; /* rounded-full */  
   height: 15px;  
 } 
+
+.donateBoxMedia {
+  display: none;
+}
 
 
 .progress-barDash {  
