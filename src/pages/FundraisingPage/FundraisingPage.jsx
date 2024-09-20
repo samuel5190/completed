@@ -18,7 +18,7 @@ const FundraisingPage = () => {
   const [pay, setPay] = useState(false)
   const {id} = useParams()
 
-  // console.log(id)
+  console.log(id)
 
   const [data, setData] = useState(null)
   const [oneData, setOneData] = useState(null)
@@ -48,12 +48,12 @@ const FundraisingPage = () => {
     get()
     // setOneData(us)
   }, []);
-  useEffect(()=>{
+  // useEffect(()=>{
 
-    const data = (main.filter((e)=>e.id == id))
-     setOneData(data[0])
-    // console.log(oneData.story)
-  },[main])
+  //   const data = (main.filter((e)=>e.id == id))
+  //    setOneData(data[0])
+  //   console.log(oneData.story)
+  // },[main])
 
   // useEffect(()=>{
   //   setOneData(data.filter((e)=>e.id == id))
