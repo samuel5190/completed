@@ -22,7 +22,7 @@
   
   .campaignContent {
     height: max-content;
-    background-color: turquoise;
+    /* background-color: turquoise; */
     width: 100%;
     display: flex;
     margin-bottom: 30px;
