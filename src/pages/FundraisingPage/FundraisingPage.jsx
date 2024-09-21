@@ -14,6 +14,8 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { allCampaigns } from "../../Global/slice";
 import useLocalStorage from "use-local-storage";
+import toast, { Toaster } from "react-hot-toast";
+import LoadingScreen from "../../components/LoadingScreen/LoadingScreen";
 
 const FundraisingPage = () => {
   const [pay, setPay] = useState(false);
@@ -26,6 +28,7 @@ const FundraisingPage = () => {
   const [oneData, setOneData] = useLocalStorage();
   const [datas, setdatas] = useState({});
   const [loading, setloading] = useState(true);
+  const [loadingScreen, setloadingScreen] = useState(true);
   const dispatch = useDispatch();
   // console.log(id)
 
@@ -39,20 +42,16 @@ const FundraisingPage = () => {
       .then((res) => {
         // setOneData(res.data, "check")
         setOneData(res?.data?.allCampaigns);
+        
+        // setOneData(res?.data?.allCampaigns);
         console.log(oneData, "oneData");
         const nae = oneData.filter((data) => data.ev == id);
         console.log(nae[0], "nae");
         setdatas(nae[0]);
         setloading(false);
-        console.log(datas, "datas")
+        console.log(datas, "datas");
         // console.log(oneData, "one")
         console.log(res?.data?.allCampaigns, "all");
-        // setCam(oneData.filter((e)=>e.ev == id))
-        // console.log(cam)
-        // console.log(oneData, 'campaign')
-        // console.log(res, 'res')
-        // console.log(res?.data?.allCampaigns, "res")
-        // setOneData(data.filter((e)=>e.ev == id));
       })
       .catch((err) => {
         console.log(err); // Set the error message
@@ -76,6 +75,10 @@ const FundraisingPage = () => {
 
   // const menuData = data.filter((e)=> e.ev === ev)
   // console.log(menuData)
+
+
+
+  // pk_test_cX9ZLV4ty3SErvh4DVDwhcfwqc1Pov81yst1d2PL
 
   const paymentData = {
     amount,
@@ -141,9 +144,42 @@ const FundraisingPage = () => {
   //     });
   // }
 
+  function payKorapay() {
+    window.Korapay.initialize({
+      key: import.meta.env.VITE_Public_Key,
+      reference: `kindraiser_${Date.now()}`,
+      amount: 2000,
+      currency: "NGN",
+      customer: {
+        name: "jack",
+        email: "jack@gmail.com",
+      },
+      onClose: function () {
+        // Handle when modal is closed
+        close
+      },
+      onSuccess: function (data) {
+
+        // Handle when payment is successful
+      },
+      onFailed: function (data) {
+        // Handle when payment fails
+      },
+    });
+  }
+
+  const close =()=>{
+    toast.success("ended")
+    setPay(false);
+  }
+
   return (
     <>
       <div className="fundRaiseBody">
+        {
+          loading ? <LoadingScreen/>:null
+        }
+        
         {pay ? (
           <Modal
             setMessage={setMessage}
@@ -158,8 +194,8 @@ const FundraisingPage = () => {
           <Header />
         </div>
         <div className="fundRaiseTitleBox">
-          <h2>{loading ? "Loading..." : <>{datas?.title}</>}</h2>
-          <div>{datas?.subtitle}</div>
+          <h2>{loading ? "..." : <>{datas?.title}</>}</h2>
+          <div>{loading ? "..." : <>{datas?.subtitle}</>}</div>
         </div>
         <div className="fundMainContentBox">
           <div className="fundMainContentWrapper">
@@ -170,26 +206,30 @@ const FundraisingPage = () => {
 
               <div className="fundRaiseTrackBox">
                 <div className="fundRaiseTrackMoney">
-                  <h2>₦{datas?.totalRaised}</h2>
+                  <h2>₦{loading ? "..." : <>{datas?.totalRaised?.toLocaleString()}</>}</h2>
                   <div>raised of ₦{datas?.Goal?.toLocaleString()} goal</div>
                 </div>
                 <div className="trackBox">
                   <div className="progress-container">
                     <div
                       className="progress-bar"
-                      style={{ width: `${percentage}%` }}
+                      style={{ width: `${(datas?.totalRaised / datas?.Goal) * 100}%` }}
                     ></div>
                   </div>
                 </div>
-                <div className="fundRaiseNoDonor">{datas?.supporters} Donors</div>
+                <div className="fundRaiseNoDonor">
+                  {loading ? "..." : <>{datas?.supporters}</>} Donors
+                </div>
               </div>
 
               <div className="fundRaiseOrgName">
                 <div className="fundRaiseOrgCard">
-                  <div className="orgImg">N</div>
+                  <div className="orgImg">{loading ? "..." : <>{datas?.npo?.organizationName[0]}</>}</div>
                   <div>
                     <div className="fundRaiseOgBy">Organized by</div>
-                    <div className="fundOrgName">{datas?.npo?.organizationName}</div>
+                    <div className="fundOrgName">
+                      {loading ? "..." : <>{datas?.npo?.organizationName}</>}
+                    </div>
                   </div>
                 </div>
                 <div className="fundRaiseOrgVerified">verified</div>
@@ -211,11 +251,7 @@ const FundraisingPage = () => {
 
               <div className="fundRaiseStoryBox">
                 <h2>Story</h2>
-                <div className="fundRaiseStory">
-                  {
-                    datas?.story
-                  }
-                </div>
+                <div className="fundRaiseStory">{loading ? "..." : <>{datas?.story}</>}</div>
                 <div className="showMoreStories">
                   show more <BsArrowDownShort />
                 </div>
@@ -250,21 +286,22 @@ const FundraisingPage = () => {
             </div>
             <div className="donateBox">
               <div className="bonateInBox">
-                {
-                  datas?.status == "inactive" ?
-                <button disabled={true}
-                  className="disabled"
-                  onClick={() => setPay(true)}
-                >
-                  Donate
-                </button>:
-                <button
-                className="fundRaiseDonateBtn"
-                onClick={() => setPay(true)}
-              >
-                Donate
-              </button>
-                }
+                {datas?.status == "inactive" ? (
+                  <button
+                    disabled={true}
+                    className="disabled"
+                    onClick={() => setPay(true)}
+                  >
+                    Donate
+                  </button>
+                ) : (
+                  <button
+                    className="fundRaiseDonateBtn"
+                    onClick={payKorapay}
+                  >
+                    Donate
+                  </button>
+                )}
                 <button
                   className="fundRaiseShareBtn"
                   onClick={() => setShareModal(true)}
@@ -277,6 +314,7 @@ const FundraisingPage = () => {
         </div>
       </div>
       <Footer />
+      <Toaster/>
     </>
   );
 };
